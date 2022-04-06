@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { RestaurantListItem } from './services/components/RestaurantListItem';
+import { RestaurantListItem } from './components/RestaurantListItem';
 import { fetchBusinesses } from './services/yelp';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Restaurant from './views/Restaurant';
 
 function App() {
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [zip, setZip] = useState('99223');
+  const [zip, setZip] = useState('');
   const [search, setSearch] = useState('');
 
   // TODO -- add state for zip / search and add event listeners to the inputs
@@ -24,26 +26,38 @@ function App() {
   const handleSearch = async () => {
     const data = await fetchBusinesses(zip, search);
     setLoading(false);
-    console.log(data);
     return setBusinesses(data.businesses);
   };
   return (
-    <div className="App">
-      <h1>Alchemy Restaurant Finder</h1>
-      <div className="query-form">
-        <div className="form-control">
-          <label>Zip:</label>
-          <input type="text" placeholder="zip" onChange={(e) => setZip(e.target.value)} />
-        </div>
-        <div className="form-control">
-          <label>Query:</label>
-          <input type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
-        </div>
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      {loading && <div className="loader"></div>}
-      {!loading && businesses.map((b) => <RestaurantListItem key={b.id} {...b} />)}
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <div className="App">
+            <h1>Alchemy Restaurant Finder</h1>
+            <div className="query-form">
+              <div className="form-control">
+                <label>Zip:</label>
+                <input type="text" placeholder="zip" onChange={(e) => setZip(e.target.value)} />
+              </div>
+              <div className="form-control">
+                <label>Query:</label>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <button onClick={handleSearch}>Search</button>
+            </div>
+            {loading && <div className="loader"></div>}
+            {!loading && businesses.map((b) => <RestaurantListItem key={b.id} {...b} />)}
+          </div>
+        </Route>
+        <Route path="/restaurant">
+          <Restaurant />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
