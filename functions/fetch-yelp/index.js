@@ -4,10 +4,10 @@ require('dotenv').config({ path: `.env.development.local` });
 const handler = async (event) => {
   // add code here to fetch data from yelp API
   // be sure to include the parameters from event.queryStringParameters
-  const { zip } = event.queryStringParameters;
+  const { zip, search } = event.queryStringParameters;
   try {
     const resp = await fetch(
-      `https://api.yelp.com/v3/businesses/search?location=${zip}&category="restaurants"`,
+      `https://api.yelp.com/v3/businesses/search?location=${zip}&term=${search}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.YELP_API_KEY}`,
