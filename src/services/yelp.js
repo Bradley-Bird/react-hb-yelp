@@ -8,3 +8,13 @@ export async function fetchBusinesses(zip = '93117', search = '') {
   const data = await resp.json();
   return data;
 }
+
+export async function fetchBusinessDetail(alias) {
+  const params = new URLSearchParams();
+  params.set('alias', alias);
+  const resp = await fetch(`/.netlify/functions/business-detail?${params.toString()}`, {
+    headers: { Accept: 'application/json' },
+  });
+  const data = await resp.json();
+  return data;
+}
