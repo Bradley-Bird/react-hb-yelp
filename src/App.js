@@ -17,11 +17,10 @@ function App() {
     const fetchData = async () => {
       const data = await fetchBusinesses();
       setBusinesses(data.businesses);
-      console.log(data.businesses);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [setBusinesses, setLoading]);
 
   // TODO -- add event for button click to handle calling fetchBusinesses with zip / search
   const handleSearch = async () => {

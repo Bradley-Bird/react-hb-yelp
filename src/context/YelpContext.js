@@ -5,12 +5,15 @@ const YelpContext = createContext();
 const YelpProvider = ({ children }) => {
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState({ error: 'Failed fetching data' });
 
   const yelpState = {
     businesses,
     setBusinesses,
     loading,
     setLoading,
+    error,
+    setError,
   };
   return <YelpContext.Provider value={yelpState}>{children}</YelpContext.Provider>;
 };
