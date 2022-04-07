@@ -4,10 +4,10 @@ import { RestaurantListItem } from './components/RestaurantListItem';
 import { fetchBusinesses } from './services/yelp';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Restaurant from './views/Restaurant';
+import { useYelpContext } from './context/YelpContext';
 
 function App() {
-  const [businesses, setBusinesses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { businesses, setBusinesses, loading, setLoading } = useYelpContext();
   const [zip, setZip] = useState('');
   const [search, setSearch] = useState('');
 
@@ -17,6 +17,7 @@ function App() {
     const fetchData = async () => {
       const data = await fetchBusinesses();
       setBusinesses(data.businesses);
+      console.log(data.businesses);
       setLoading(false);
     };
     fetchData();
@@ -53,7 +54,7 @@ function App() {
             {!loading && businesses.map((b) => <RestaurantListItem key={b.id} {...b} />)}
           </div>
         </Route>
-        <Route path="/restaurant">
+        <Route path="/restaurant/:alias">
           <Restaurant />
         </Route>
       </Switch>

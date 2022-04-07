@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { YelpProvider } from './context/YelpContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <YelpProvider>
+      <App />
+    </YelpProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
